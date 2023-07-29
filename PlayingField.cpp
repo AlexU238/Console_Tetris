@@ -3,13 +3,13 @@
 //
 
 
-
 #include "PlayingField.h"
 
 void PlayingField::refresh() {
-    chrono::milliseconds duration(500);
+    chrono::milliseconds duration(100);
     this_thread::sleep_for(duration);
     system("clear");
+    //todo: check for rows and move everything down
     for (auto &i: matrix) {
         for (char j: i) {
             cout << j << " ";
@@ -73,8 +73,14 @@ void PlayingField::play() {
 
         if(!shapeOnField){
             currentShape=giveRandomShape();
-            currentShape->appear(matrix);
-            shapeOnField= true;
+            if(currentShape->canAppear(matrix)){
+                currentShape->appear(matrix);
+                shapeOnField= true;
+            }else{
+                currentShape->appear(matrix);
+                cout<<"game over?"<<endl;
+                break;
+            }
         }
 
         currentShape->fall(matrix);
@@ -91,16 +97,18 @@ void PlayingField::play() {
 }
 
 Shape* PlayingField::giveRandomShape() {
-    return new Bar();
+    Shape *shape = new Bar({3,4,5,6,0,0,0,0},SIDE_RIGHT);
+
+    return shape;
 }
 
 PlayingField::PlayingField() {
-    for (auto & i : matrix) {
+    for (int i=1; i<20;i++) {
         for (int j = 0; j < 12; j++) {
             if (j==0 || j == 11) {
-                i[j] = '|';
+                matrix[i][j] = '|';
             } else {
-                i[j] = ' ';
+                matrix[i][j] = ' ';
             }
         }
     }

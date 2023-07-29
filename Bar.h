@@ -9,14 +9,16 @@
 
 class Bar: public Shape{
 
-    int x1,x2,x3,x4;
-    int y1,y2,y3,y4;
+    ShapeCoords shapeCoords;
+    Positions currentPosition;
 
 public:
 
+    Bar(const ShapeCoords &shapeCoords, Positions currentPosition);
+
     Bar()=default;
 
-    virtual ~Bar()=default;
+    ~Bar() override=default;
 
     void rotateRight(char (&matrix)[20][12]) override;
 
@@ -30,11 +32,13 @@ public:
 
     void appear(char (&matrix)[20][12]) override;
 
+    bool canAppear(char (&matrix)[20][12]) override;
+
     bool collide(char (&matrix)[20][12]) override;
 
     bool stopFall(char (&matrix)[20][12]) override;
 
-    void heYo() override;
+    void clearShape(char (&matrix)[20][12]) override;
 };
 
 

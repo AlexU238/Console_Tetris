@@ -24,6 +24,7 @@ private:
     char matrix[20][12];
     bool shapeOnField= false;
     struct termios originalSettings, modifiedSettings;
+    Shape* trash;
 public:
 
     PlayingField();
